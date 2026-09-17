@@ -1,0 +1,49 @@
+--- a/drivers/platform/x86/acer-wmi.c
++++ b/drivers/platform/x86/acer-wmi.c
+@@ -682,6 +682,15 @@
+ 	},
+ 	{
+ 		.callback = dmi_matched,
++		.ident = "Acer Predator PHN16S-71",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Predator PHN16S-71"),
++		},
++		.driver_data = &quirk_acer_nitro_an515_58,
++	},
++	{
++		.callback = dmi_matched,
+ 		.ident = "Acer Predator PH16-71",
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
+@@ -850,6 +859,7 @@
+ enum acer_predator_v4_thermal_profile {
+ 	ACER_PREDATOR_V4_THERMAL_PROFILE_QUIET		= 0x00,
+ 	ACER_PREDATOR_V4_THERMAL_PROFILE_BALANCED	= 0x01,
++	ACER_PREDATOR_V4_THERMAL_PROFILE_UNSET		= 0x02,
+ 	ACER_PREDATOR_V4_THERMAL_PROFILE_PERFORMANCE	= 0x04,
+ 	ACER_PREDATOR_V4_THERMAL_PROFILE_TURBO		= 0x05,
+ 	ACER_PREDATOR_V4_THERMAL_PROFILE_ECO		= 0x06,
+@@ -2127,6 +2137,7 @@
+ 		*profile = PLATFORM_PROFILE_LOW_POWER;
+ 		break;
+ 	default:
++		pr_warn("Unknown thermal profile 0x%x\n", tp);
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+@@ -2172,6 +2183,14 @@
+ static int
+ acer_predator_v4_platform_profile_probe(void *drvdata, unsigned long *choices)
+ {
++	u8 tp;
++
++	/* PHN16S-71 firmware reports 0x02 until a profile is selected for the first time */
++	if (!WMID_gaming_get_misc_setting(ACER_WMID_MISC_SETTING_PLATFORM_PROFILE, &tp) &&
++	    tp == ACER_PREDATOR_V4_THERMAL_PROFILE_UNSET)
++		WMID_gaming_set_misc_setting(ACER_WMID_MISC_SETTING_PLATFORM_PROFILE,
++					     ACER_PREDATOR_V4_THERMAL_PROFILE_BALANCED);
++
+ 	set_bit(PLATFORM_PROFILE_PERFORMANCE, choices);
+ 	set_bit(PLATFORM_PROFILE_BALANCED_PERFORMANCE, choices);
+ 	set_bit(PLATFORM_PROFILE_BALANCED, choices);

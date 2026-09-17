@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Predator Control
+Comment=Режимы мощности и вентиляторы Acer Predator
+Exec=@DIR@/fan-gui
+Icon=predator-control
+Terminal=false
+Categories=System;
+StartupWMClass=local.itguy.FanControl

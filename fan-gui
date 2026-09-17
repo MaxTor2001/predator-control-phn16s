@@ -1,0 +1,3 @@
+#!/bin/sh
+# Системный python нужен ради PyGObject (GTK4/libadwaita из пакетов Ubuntu)
+exec uv run --no-project --python /usr/bin/python3 "$(dirname "$(readlink -f "$0")")/fan_gui.py"

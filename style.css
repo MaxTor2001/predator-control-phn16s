@@ -1,0 +1,146 @@
+@define-color accent_color #00d8ff;
+@define-color accent_bg_color #00d8ff;
+@define-color accent_fg_color #04141a;
+@define-color turbo #ff3b4e;
+
+window.predator,
+window.predator headerbar {
+  background: linear-gradient(180deg, #0d1216 0%, #07090b 100%);
+  color: #d5e4ea;
+}
+
+window.predator headerbar {
+  background: #0d1216;
+  box-shadow: none;
+  border-bottom: 1px solid #142028;
+}
+
+.brand {
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 5px;
+  color: #00d8ff;
+  text-shadow: 0 0 12px alpha(#00d8ff, 0.55);
+}
+
+.section {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #5d7783;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #142028;
+}
+
+.section-value {
+  letter-spacing: 2px;
+  color: #00d8ff;
+  font-feature-settings: "tnum";
+}
+
+.gauge-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: #5d7783;
+}
+
+.gauge-temp {
+  font-size: 56px;
+  font-weight: 300;
+  color: #f2fbff;
+  text-shadow: 0 0 22px alpha(#00d8ff, 0.35);
+}
+
+.gauge-rpm {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #00d8ff;
+  font-feature-settings: "tnum";
+}
+
+button.tile {
+  background: #10171c;
+  border: 1px solid #1d2a32;
+  border-radius: 3px;
+  padding: 12px 6px;
+  color: #8ea5b0;
+  box-shadow: none;
+  transition: all 160ms ease-out;
+}
+
+button.tile:hover {
+  background: #152028;
+  border-color: #2b4652;
+  color: #d5e4ea;
+}
+
+button.tile:checked {
+  background: linear-gradient(180deg, alpha(#00d8ff, 0.2), alpha(#00d8ff, 0.05));
+  border-color: #00d8ff;
+  color: #ffffff;
+  box-shadow: 0 0 16px alpha(#00d8ff, 0.35), inset 0 0 12px alpha(#00d8ff, 0.12);
+}
+
+button.tile.turbo:checked {
+  background: linear-gradient(180deg, alpha(@turbo, 0.24), alpha(@turbo, 0.06));
+  border-color: @turbo;
+  box-shadow: 0 0 16px alpha(@turbo, 0.4), inset 0 0 12px alpha(@turbo, 0.14);
+}
+
+.tile-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.tile-subtitle {
+  font-size: 11px;
+  opacity: 0.6;
+  font-feature-settings: "tnum";
+}
+
+.fan-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #5d7783;
+}
+
+.fan-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #00d8ff;
+  font-feature-settings: "tnum";
+}
+
+scale trough {
+  background: #1b242b;
+  min-height: 6px;
+  border-radius: 1px;
+}
+
+scale highlight {
+  background: #00d8ff;
+  border-radius: 1px;
+  box-shadow: 0 0 10px alpha(#00d8ff, 0.6);
+}
+
+scale slider {
+  background: #f2fbff;
+  border-radius: 2px;
+  min-width: 10px;
+  min-height: 24px;
+  margin: -9px 0;
+  box-shadow: 0 0 10px alpha(#00d8ff, 0.7);
+}
+
+.sliders:disabled {
+  opacity: 0.45;
+}
+
+.hint {
+  font-size: 11px;
+  color: #4a606b;
+}

@@ -1,0 +1,10 @@
+__pycache__/
+
+# артефакты сборки модуля ядра
+driver/*.o
+driver/*.ko
+driver/*.mod
+driver/*.mod.c
+driver/.*.cmd
+driver/Module.symvers
+driver/modules.order

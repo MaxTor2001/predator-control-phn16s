@@ -1,0 +1,3 @@
+# Разрешить группе sudo управлять вентиляторами и режимом мощности (драйвер acer-wmi)
+ACTION=="add", SUBSYSTEM=="hwmon", ATTR{name}=="acer", RUN+="/bin/sh -c 'chgrp sudo /sys%p/pwm* && chmod g+w /sys%p/pwm*'"
+ACTION=="add", SUBSYSTEM=="platform-profile", ATTR{name}=="acer-wmi", RUN+="/bin/sh -c 'chgrp sudo /sys%p/profile && chmod g+w /sys%p/profile'"
