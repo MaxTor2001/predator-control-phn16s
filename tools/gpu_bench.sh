@@ -1,11 +1,11 @@
 #!/bin/bash
-# Замер GPU под нагрузкой: мощность, лимит, частота, температура, скорость. Запуск: tools/gpu_bench.sh [секунды]
+# Замер GPU под нагрузкой: мощность, лимит, частота, температура, скорость. Запуск: tools/gpu_bench.sh [секунды] [light|heavy]
 seconds=${1:-70}
 dir=$(dirname "$(readlink -f "$0")")
 log=$(mktemp)
 
 echo "nvidia-powerd: $(pgrep -x nvidia-powerd > /dev/null && echo запущен || echo не запущен), режим: $(cat /sys/firmware/acpi/platform_profile)"
-uv run --no-project --with wgpu "$dir/gpu_load.py" "$seconds" > "$log" 2>&1 &
+uv run --no-project --with wgpu "$dir/gpu_load.py" "$seconds" ${2:-light} > "$log" 2>&1 &
 load=$!
 
 for t in $(seq 10 10 "$seconds"); do
