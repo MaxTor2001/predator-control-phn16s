@@ -39,7 +39,7 @@
 
 ```bash
 sudo ./install.sh     # драйвер (DKMS) + udev-правило, перезагружает acer_wmi
-./install-user.sh     # ярлык «Predator Control» и иконка в меню приложений
+./install-user.sh     # ярлык «Predator Control», иконка и хук gamemode
 ```
 
 В конце `install.sh` должен напечатать путь модуля в `updates/dkms`, права `rw-rw-r-- root sudo`
@@ -59,6 +59,13 @@ uv run fanctl.py auto
 ```
 
 Окно при закрытии ничего не сбрасывает: выбранный режим остаётся до перезагрузки.
+
+### Автоматический режим для игр
+
+Сам по себе режим мощности не переключается. Если установлен [gamemode](https://github.com/FeralInteractive/gamemode),
+`install-user.sh` кладёт `~/.config/gamemode.ini` (если его ещё нет) с хуком `tools/gamemode-profile.sh`:
+при запуске игры включается Performance, после выхода возвращается прежний режим.
+В Steam: свойства игры → параметры запуска → `gamemoderun %command%`.
 
 ## Что измерено на этой машине
 
@@ -153,6 +160,7 @@ sudo dkms remove acer-wmi-phn16s/1.1 --all
 sudo rm -rf /usr/src/acer-wmi-phn16s-1.1 /etc/udev/rules.d/90-acer-fan.rules
 sudo modprobe -r acer_wmi && sudo modprobe acer_wmi
 rm ~/.local/share/applications/predator-control.desktop ~/.local/share/icons/hicolor/scalable/apps/predator-control.svg
+rm ~/.config/gamemode.ini   # если его создал install-user.sh
 ```
 
 ## Лицензия

@@ -1,0 +1,4 @@
+; Режим Performance на время игры (gamemoderun), затем возврат прежнего режима
+[custom]
+start=@DIR@/tools/gamemode-profile.sh start
+end=@DIR@/tools/gamemode-profile.sh end

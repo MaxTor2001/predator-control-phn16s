@@ -40,7 +40,7 @@ system GTK4 + libadwaita with PyGObject (already present on Ubuntu with GNOME). 
 
 ```bash
 sudo ./install.sh     # driver (DKMS) + udev rule, reloads acer_wmi
-./install-user.sh     # "Predator Control" launcher and icon in the applications menu
+./install-user.sh     # "Predator Control" launcher, icon and gamemode hook
 ```
 
 At the end `install.sh` should print the module path under `updates/dkms`, `rw-rw-r-- root sudo`
@@ -60,6 +60,13 @@ uv run fanctl.py auto
 ```
 
 Closing the window resets nothing: the selected mode stays until reboot.
+
+### Automatic mode for games
+
+The power mode never switches by itself. If [gamemode](https://github.com/FeralInteractive/gamemode) is installed,
+`install-user.sh` creates `~/.config/gamemode.ini` (unless it already exists) with the `tools/gamemode-profile.sh` hook:
+Performance is selected when a game starts and the previous mode is restored when it exits.
+In Steam: game properties → launch options → `gamemoderun %command%`.
 
 ## Measurements on this machine
 
@@ -154,6 +161,7 @@ sudo dkms remove acer-wmi-phn16s/1.1 --all
 sudo rm -rf /usr/src/acer-wmi-phn16s-1.1 /etc/udev/rules.d/90-acer-fan.rules
 sudo modprobe -r acer_wmi && sudo modprobe acer_wmi
 rm ~/.local/share/applications/predator-control.desktop ~/.local/share/icons/hicolor/scalable/apps/predator-control.svg
+rm ~/.config/gamemode.ini   # if install-user.sh created it
 ```
 
 ## License
