@@ -93,13 +93,14 @@ Firmware (EC) quirks:
   Only Auto mode stops the fans at idle.
 - The stock Auto curve is lazy: under load the fans take ~40 s to reach 3100 RPM.
 
-## Work in progress: Dynamic Boost for the GPU
+## Dynamic Boost for the GPU
 
-Not finished. The RTX 5070 Laptop has a default power limit of 70 W with a maximum of 115 W;
+The RTX 5070 Laptop has a default power limit of 70 W with a maximum of 115 W;
 the limit is raised by the `nvidia-powerd` daemon (Dynamic Boost). The firmware reports
 `Notebook Dynamic Boost: Supported`, but Ubuntu neither enables the daemon nor installs its D-Bus policy.
 
 - `nvidia/nvidia-dbus.conf` — the D-Bus policy from the official NVIDIA distribution (taken from Debian's `nvidia-powerd` package).
+- `sudo nvidia/install-powerd.sh` — enable the daemon permanently (D-Bus policy + NVIDIA's stock systemd unit); `... remove` — undo.
 - `sudo nvidia/try-powerd.sh` — enable the daemon temporarily, until reboot; `... stop` — undo.
 - `tools/gpu_bench.sh` — GPU measurement under load (a Vulkan compute shader via `wgpu`, no root), stops if the GPU exceeds 87 °C.
 
@@ -124,8 +125,18 @@ The `light` shader draws only ~65 W by itself and never hits the limit. The `hea
 | GPU temperature after 50 s | 65 °C | 68 °C |
 | Speed | 1.26–1.29 passes/s | 1.32–1.33 passes/s (+5 %) |
 
-The daemon gives +15 W and +12 % clock; on this load, which is also memory-bound, that is +5 % speed.
-Games and the limit in Performance/Turbo modes have not been measured; the daemon is not installed permanently yet.
+With the daemon the GPU limit follows the Acer mode (`heavy` load, 40 s):
+
+| Mode | GPU limit | Draw | Clock | GPU | Speed |
+|---|---|---|---|---|---|
+| no daemon, any | 70 W | 70 W | 2300–2380 MHz | 65 °C | 1.27 passes/s |
+| Balanced | 85 W | 85 W | 2625–2655 MHz | 68 °C | 1.33 (+5 %) |
+| Performance | 100 W | 90–91 W | 2790 MHz | 63 °C | 1.38 (+9 %) |
+| Turbo | 115 W | 92–93 W | 2780 MHz | 68 °C | 1.38 (+9 %) |
+
+This load never draws more than ~93 W, so Performance and Turbo are equal on it; it is also
+memory-bound, so the speed gain is smaller than the clock gain (+20 %). Games have not been measured.
+Daemon autostart after a reboot has not been verified yet.
 
 ## Limitations and untested areas
 
