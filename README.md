@@ -65,7 +65,8 @@ Closing the window resets nothing: the selected mode stays until reboot.
 
 The power mode never switches by itself. If [gamemode](https://github.com/FeralInteractive/gamemode) is installed,
 `install-user.sh` creates `~/.config/gamemode.ini` (unless it already exists) with the `tools/gamemode-profile.sh` hook:
-Performance is selected when a game starts and the previous mode is restored when it exits.
+Performance is selected when a game starts and the previous mode is restored when it exits. To use another mode,
+pass it as the second argument in `gamemode.ini`: `...gamemode-profile.sh start balanced`.
 In Steam: game properties → launch options → `gamemoderun %command%`.
 
 ## Measurements on this machine
@@ -89,7 +90,7 @@ Full all-core load, 130 s, fans in Auto, average over 70–128 s:
 | Fans | ~3130 RPM | ~4810 RPM |
 
 In both modes the CPU is limited by temperature, not by the power limit; Turbo raises the thermal
-ceiling. Games have not been measured.
+ceiling. For a game measurement see the Dynamic Boost section.
 
 Firmware (EC) quirks:
 
@@ -144,6 +145,19 @@ With the daemon the GPU limit follows the Acer mode (`heavy` load, 40 s):
 This load never draws more than ~93 W, so Performance and Turbo are equal on it; it is also
 memory-bound, so the speed gain is smaller than the clock gain (+20 %). Games have not been measured.
 Daemon autostart after a reboot has not been verified yet.
+
+Dynamic Boost shares one power budget between the CPU and the GPU: under heavy CPU load the GPU limit
+drops, even below the stock 70 W. Measured in a real game (Path of Exile 2, ~6 CPU cores busy, FPS capped by
+a 100 Hz monitor, fans in Auto):
+
+| | Performance | Balanced |
+|---|---|---|
+| CPU | 105 °C, throttling | 97–99 °C |
+| Fans | ~4460 RPM | ~3190 RPM |
+| GPU limit (with the daemon) | 70 W | 55 W |
+| FPS | 100 | 100 |
+
+For CPU-heavy games with capped FPS, Balanced is the better choice: same FPS, cooler and quieter.
 
 ## Limitations and untested areas
 
