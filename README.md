@@ -114,9 +114,18 @@ the card in P4, 19 W, regardless of the Acer mode):
 | GPU temperature | 68 °C | 64 °C |
 | Speed | 9.7 passes/s | 9.6 passes/s |
 
-The daemon works and raises the limit, but the test shader draws only ~65 W by itself and never hits
-the limit, so a performance gain is not proven yet. A power-limited load (a game) and the
-Performance/Turbo modes still need to be measured.
+The `light` shader draws only ~65 W by itself and never hits the limit. The `heavy` load
+(`tools/gpu_bench.sh 50 heavy`, random memory reads) is power-limited, Balanced mode:
+
+| `heavy` | without the daemon | with `nvidia-powerd` |
+|---|---|---|
+| Limit / draw | 70 / 69.9 W | 85 / 84.8 W (+21 %) |
+| Clock | 2300–2380 MHz | 2625–2655 MHz (+12 %) |
+| GPU temperature after 50 s | 65 °C | 68 °C |
+| Speed | 1.26–1.29 passes/s | 1.32–1.33 passes/s (+5 %) |
+
+The daemon gives +15 W and +12 % clock; on this load, which is also memory-bound, that is +5 % speed.
+Games and the limit in Performance/Turbo modes have not been measured; the daemon is not installed permanently yet.
 
 ## Limitations and untested areas
 
